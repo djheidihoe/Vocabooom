@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('words', function (Blueprint $table) {
             $table->id();
-            $table->string('german')'
-            $table->string('english')'
+            $table->string('german');
+            $table->string('english');
             $table->timestamps();
         });
     }
