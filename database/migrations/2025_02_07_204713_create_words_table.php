@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('words', function (Blueprint $table) {
-            $table->id();
-            $table->string('german');
-            $table->string('english');
-            $table->timestamps();
-        });
+        // Schema::create('words', function (Blueprint $table) {
+        //     $table->id();
+        //     $table->string('german');
+        //     $table->string('english');
+        //     $table->timestamps();
+        //     done in railways from now on.
+        // });
     }
 
     /**

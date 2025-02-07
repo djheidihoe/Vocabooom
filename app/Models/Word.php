@@ -9,6 +9,7 @@ class Word extends Model
 {
     use HasFactory;
 
+    protected $table = 'words'; // Ensure Laravel knows the table name
     protected $fillable = ['german', 'english'];
     //
 }
