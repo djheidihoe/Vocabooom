@@ -25,21 +25,16 @@ require __DIR__.'/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
-| Turn On The Lights
+| Run The Application
 |--------------------------------------------------------------------------
 */
 
 $app = require_once __DIR__.'/../bootstrap/app.php';
 
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-*/
-
 $kernel = $app->make(Kernel::class);
 
 $response = $kernel->handle(
-    $requ 
+    $request = Request::capture()
+)->send();
 
 $kernel->terminate($request, $response);
