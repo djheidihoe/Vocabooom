@@ -4,15 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vocabooom 🚀</title>
+    <title>Vocabooom 🎉🎊</title>
     <script src="https://unpkg.com/htmx.org@1.9.2"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0"></script>
     <style>
         body {
             font-family: 'Comic Sans MS', sans-serif;
             text-align: center;
-            background: linear-gradient(135deg, #FFE5E5 0%, #FFE5FF 100%);
-            color: #333;
+            background: linear-gradient(135deg, #A2D2FF 0%, #FEF9EF 100%);
+            color: #2B3A67;
             margin: 0;
             padding: 10px;
             min-height: 100vh;
@@ -23,15 +23,15 @@
             border-radius: 25px;
             padding: 20px;
             display: inline-block;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 30px rgba(43, 58, 103, 0.15);
             margin-top: 10px;
-            border: 3px solid #FF69B4;
+            border: 3px solid #57CC99;
             width: 90%;
             max-width: 400px;
         }
 
         h1 {
-            color: #FF69B4;
+            color: #2B3A67;
             font-size: calc(1.8em + 2vw);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 5px;
@@ -41,22 +41,23 @@
             font-size: 18px;
             padding: 12px;
             border-radius: 15px;
-            border: 3px solid #FF69B4;
+            border: 3px solid #57CC99;
             margin: 10px 0;
             width: 85%;
             max-width: 300px;
             outline: none;
             transition: all 0.3s ease;
+            background-color: #FAFAFA;
         }
 
         input:focus {
-            border-color: #FF1493;
-            box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+            border-color: #22577A;
+            box-shadow: 0 0 10px rgba(34, 87, 122, 0.2);
         }
 
         button {
             font-size: 18px;
-            background: #FF69B4;
+            background: #22577A;
             color: white;
             border: none;
             padding: 12px 25px;
@@ -69,28 +70,33 @@
         }
 
         button:hover {
-            background: #FF1493;
+            background: #57CC99;
             transform: scale(1.05);
         }
 
         #score {
             font-size: calc(20px + 1vw);
             margin: 15px 0;
-            color: #FF69B4;
+            color: #22577A;
             font-weight: bold;
         }
 
         #word-display {
             font-size: calc(24px + 1vw);
-            color: #333;
+            color: #2B3A67;
             margin: 15px 0;
             font-weight: bold;
+            padding: 10px 20px;
+            background: #F7F9FC;
+            border-radius: 15px;
+            display: inline-block;
         }
 
         #feedback {
             font-size: 24px;
             margin-top: 20px;
             min-height: 30px;
+            font-weight: bold;
         }
 
         @media (max-width: 480px) {
@@ -128,10 +134,10 @@
     let score = 0;
     let currentWordId = {{ $word->id }};
     let correctAnswer = "{{ $word->english }}".toLowerCase();
-    
+
     // Create audio elements
-    const correctSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2874/2874-preview.mp3');
-    const milestoneSound = new Audio('https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3');
+    const milestoneSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2020/2020-preview.mp3');
+    const correctSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
 
     // Adjust volume
     correctSound.volume = 0.6;
@@ -170,7 +176,7 @@
 
             // Play sound and trigger confetti
             correctSound.play();
-            
+
             // Basic confetti for regular correct answers
             confetti({
                 particleCount: 100,
