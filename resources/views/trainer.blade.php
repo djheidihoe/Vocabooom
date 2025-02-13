@@ -210,6 +210,59 @@
             }, 250);
         }
 
+        function celebrateStars() {
+            milestoneSound.play();
+            const duration = 3000;
+            const animationEnd = Date.now() + duration;
+            const defaults = {
+                startVelocity: 30,
+                spread: 360,
+                ticks: 60,
+                zIndex: 0
+            };
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                confetti({
+                    var defaults = {
+                        spread: 360,
+                        ticks: 50,
+                        gravity: 0,
+                        decay: 0.94,
+                        startVelocity: 30,
+                        colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
+                    };
+
+                    function shoot() {
+                        confetti({
+                            ...defaults,
+                            particleCount: 40,
+                            scalar: 1.2,
+                            shapes: ['star']
+                        });
+
+                        confetti({
+                            ...defaults,
+                            particleCount: 10,
+                            scalar: 0.75,
+                            shapes: ['circle']
+                        });
+                    }
+
+                    setTimeout(shoot, 0);
+                    setTimeout(shoot, 100);
+                    setTimeout(shoot, 200);
+                }, 250);
+            });
+        }, 250);
+        }
+
         function checkAnswer() {
             let userAnswer = document.getElementById("answer").value.trim().toLowerCase();
             let feedback = document.getElementById("feedback");
@@ -234,6 +287,9 @@
                 // Special celebration for milestones (every 3rd correct answer)
                 if (score % 3 === 0) {
                     celebrateMilestone();
+                }
+                if (score % 5 === 0) {
+                    celebrateStars();
                 }
 
                 setTimeout(loadNewWord, 1500); // Increased delay to enjoy the celebration
