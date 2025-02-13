@@ -104,12 +104,12 @@
                 padding: 15px;
                 margin-top: 5px;
             }
-            
+
             input {
                 font-size: 16px;
                 padding: 10px;
             }
-            
+
             button {
                 font-size: 16px;
                 padding: 10px 20px;
@@ -131,95 +131,141 @@
     </div>
 
     <script>
-    let score = 0;
-    let currentWordId = {{ $word->id }};
-    let correctAnswer = "{{ $word->english }}".toLowerCase();
-
-    // Create audio elements
-    const milestoneSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2020/2020-preview.mp3');
-    const correctSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
-
-    // Adjust volume
-    correctSound.volume = 0.6;
-    milestoneSound.volume = 0.7;
-
-    function celebrateMilestone() {
-        milestoneSound.play();
-        const duration = 3000;
-        const animationEnd = Date.now() + duration;
-        const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-        const interval = setInterval(function() {
-            const timeLeft = animationEnd - Date.now();
-
-            if (timeLeft <= 0) {
-                return clearInterval(interval);
+        let score = 0;
+        let currentWordId = {
+            {
+                $word - > id
             }
+        };
+        let correctAnswer = "{{ $word->english }}".toLowerCase();
 
-            const particleCount = 50 * (timeLeft / duration);
-            confetti({
-                ...defaults,
-                particleCount,
-                origin: { x: Math.random(), y: Math.random() - 0.2 }
-            });
-        }, 250);
-    }
+        // Create audio elements
+        const milestoneSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2020/2020-preview.mp3');
+        const correctSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3');
 
-    function checkAnswer() {
-        let userAnswer = document.getElementById("answer").value.trim().toLowerCase();
-        let feedback = document.getElementById("feedback");
+        // Adjust volume
+        correctSound.volume = 0.6;
+        milestoneSound.volume = 0.7;
 
-        if (userAnswer === correctAnswer) {
-            feedback.innerHTML = "✅ Correct!";
-            score++;
-            document.getElementById("score-count").innerText = score;
+        function celebrateMilestone() {
+            milestoneSound.play();
+            const duration = 3000;
+            const animationEnd = Date.now() + duration;
+            const defaults = {
+                startVelocity: 30,
+                spread: 360,
+                ticks: 60,
+                zIndex: 0
+            };
 
-            // Play sound and trigger confetti
-            correctSound.play();
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
 
-            // Basic confetti for regular correct answers
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
 
-            // Special celebration for milestones (every 3rd correct answer)
-            if (score % 3 === 0) {
-                celebrateMilestone();
-            }
+                const particleCount = 50 * (timeLeft / duration);
+                confetti({
+                    var duration = 3 * 1000;
+                    var animationEnd = Date.now() + duration;
+                    var defaults = {
+                        startVelocity: 30,
+                        spread: 360,
+                        ticks: 60,
+                        zIndex: 0
+                    };
 
-            setTimeout(loadNewWord, 1500); // Increased delay to enjoy the celebration
-        } else {
-            feedback.innerHTML = "❌ Try again!";
+                    function randomInRange(min, max) {
+                        return Math.random() * (max - min) + min;
+                    }
+
+                    var interval = setInterval(function() {
+                        var timeLeft = animationEnd - Date.now();
+
+                        if (timeLeft <= 0) {
+                            return clearInterval(interval);
+                        }
+
+                        var particleCount = 50 * (timeLeft / duration);
+                        // since particles fall down, start a bit higher than random
+                        confetti({
+                            ...defaults,
+                            particleCount,
+                            origin: {
+                                x: randomInRange(0.1, 0.3),
+                                y: Math.random() - 0.2
+                            }
+                        });
+                        confetti({
+                            ...defaults,
+                            particleCount,
+                            origin: {
+                                x: randomInRange(0.7, 0.9),
+                                y: Math.random() - 0.2
+                            }
+                        });
+                    }, 250);
+                });
+            }, 250);
         }
 
-        document.getElementById("answer").value = "";
-    }
+        function checkAnswer() {
+            let userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+            let feedback = document.getElementById("feedback");
 
-    function loadNewWord() {
-        fetch("/get-word")
-            .then(response => response.json())
-            .then(data => {
-                console.log("New word:", data.german, "| Correct:", data.english);
+            if (userAnswer === correctAnswer) {
+                feedback.innerHTML = "✅ Correct!";
+                score++;
+                document.getElementById("score-count").innerText = score;
 
-                document.getElementById("word-display").innerText = data.german;
-                correctAnswer = data.english.toLowerCase();
-                currentWordId = data.id;
-                document.getElementById("feedback").innerText = "";
-            })
-            .catch(error => console.error("Error loading new word:", error));
-    }
+                // Play sound and trigger confetti
+                correctSound.play();
 
-    // 🎯 Listen for "Enter" key press
-    document.getElementById("answer").addEventListener("keydown", function (event) {
-        if (event.key === "Enter") {
-            event.preventDefault(); // Prevents accidental form submission
-            checkAnswer(); // Calls the checkAnswer function
+                // Basic confetti for regular correct answers
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: {
+                        y: 0.6
+                    }
+                });
+
+                // Special celebration for milestones (every 3rd correct answer)
+                if (score % 3 === 0) {
+                    celebrateMilestone();
+                }
+
+                setTimeout(loadNewWord, 1500); // Increased delay to enjoy the celebration
+            } else {
+                feedback.innerHTML = "❌ Try again!";
+            }
+
+            document.getElementById("answer").value = "";
         }
-    });
 
+        function loadNewWord() {
+            fetch("/get-word")
+                .then(response => response.json())
+                .then(data => {
+                    console.log("New word:", data.german, "| Correct:", data.english);
+
+                    document.getElementById("word-display").innerText = data.german;
+                    correctAnswer = data.english.toLowerCase();
+                    currentWordId = data.id;
+                    document.getElementById("feedback").innerText = "";
+                })
+                .catch(error => console.error("Error loading new word:", error));
+        }
+
+        // 🎯 Listen for "Enter" key press
+        document.getElementById("answer").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                event.preventDefault(); // Prevents accidental form submission
+                checkAnswer(); // Calls the checkAnswer function
+            }
+        });
     </script>
 </body>
-</html>
 
+</html>
