@@ -287,8 +287,7 @@
                 // Special celebration for milestones (every 3rd correct answer)
                 if (score % 3 === 0) {
                     celebrateMilestone();
-                }
-                if (score % 5 === 0) {
+                } else if (score % 5 === 0) {
                     celebrateStars();
                 }
 
