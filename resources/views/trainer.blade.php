@@ -132,7 +132,11 @@
 
     <script>
         let score = 0;
-        let currentWordId = {{ $word->id }};
+        let currentWordId = {
+            {
+                $word - > id
+            }
+        };
         let correctAnswer = "{{ $word->english }}".toLowerCase();
 
         // Create audio elements
@@ -246,7 +250,7 @@
                     celebrateStars();
                 }
 
-                setTimeout(loadNewWord, 1500); // Increased delay to enjoy the celebration
+                setTimeout(loadNewWord, 500); // Increased delay to enjoy the celebration
             } else {
                 feedback.innerHTML = "❌ Try again!";
             }
