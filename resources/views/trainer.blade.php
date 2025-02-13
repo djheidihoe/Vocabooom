@@ -234,6 +234,7 @@
                 // Play sound and trigger confetti
                 correctSound.play();
 
+                setTimeout(loadNewWord, 500); // Increased delay to enjoy the celebration
                 // Basic confetti for regular correct answers
                 confetti({
                     particleCount: 100,
@@ -250,7 +251,6 @@
                     celebrateStars();
                 }
 
-                setTimeout(loadNewWord, 500); // Increased delay to enjoy the celebration
             } else {
                 feedback.innerHTML = "❌ Try again!";
             }
