@@ -132,11 +132,7 @@
 
     <script>
         let score = 0;
-        let currentWordId = {
-            {
-                $word - > id
-            }
-        };
+        let currentWordId = {{ $word->id }};
         let correctAnswer = "{{ $word->english }}".toLowerCase();
 
         // Create audio elements
@@ -149,12 +145,12 @@
 
         function celebrateMilestone() {
             milestoneSound.play();
-            const duration = 3000;
+            const duration = 4000;
             const animationEnd = Date.now() + duration;
             const defaults = {
-                startVelocity: 30,
+                startVelocity: 45,
                 spread: 360,
-                ticks: 60,
+                ticks: 80,
                 zIndex: 0
             };
 
@@ -169,50 +165,48 @@
                     return clearInterval(interval);
                 }
 
-                const particleCount = 50 * (timeLeft / duration);
-                // since particles fall down, start a bit higher than random
+                const particleCount = 80 * (timeLeft / duration);
                 confetti({
                     ...defaults,
                     particleCount,
-                    origin: {
-                        x: randomInRange(0.1, 0.3),
-                        y: Math.random() - 0.2
-                    }
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
                 });
                 confetti({
                     ...defaults,
                     particleCount,
-                    origin: {
-                        x: randomInRange(0.7, 0.9),
-                        y: Math.random() - 0.2
-                    }
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
                 });
-            }, 250);
+                confetti({
+                    ...defaults,
+                    particleCount: particleCount * 0.5,
+                    origin: { x: randomInRange(0.4, 0.6), y: Math.random() - 0.2 }
+                });
+            }, 200);
         }
 
         function celebrateStars() {
             milestoneSound.play();
             const defaults = {
                 spread: 360,
-                ticks: 50,
+                ticks: 100,
                 gravity: 0,
                 decay: 0.94,
-                startVelocity: 30,
+                startVelocity: 45,
                 colors: ['FFE400', 'FFBD00', 'E89400', 'FFCA6C', 'FDFFB8']
             };
 
             function shoot() {
                 confetti({
                     ...defaults,
-                    particleCount: 40,
-                    scalar: 1.2,
+                    particleCount: 80,
+                    scalar: 1.5,
                     shapes: ['star']
                 });
 
                 confetti({
                     ...defaults,
-                    particleCount: 10,
-                    scalar: 0.75,
+                    particleCount: 20,
+                    scalar: 1,
                     shapes: ['circle']
                 });
             }
@@ -220,6 +214,9 @@
             setTimeout(shoot, 0);
             setTimeout(shoot, 100);
             setTimeout(shoot, 200);
+            setTimeout(shoot, 300);
+            setTimeout(shoot, 400);
+   
         }
 
         function checkAnswer() {
@@ -227,35 +224,36 @@
             let feedback = document.getElementById("feedback");
 
             if (userAnswer === correctAnswer) {
+                // Clear input and load new word first
+                document.getElementById("answer").value = "";
+                loadNewWord();
+
+                // Then update score and show feedback
                 feedback.innerHTML = "✅ Correct!";
                 score++;
                 document.getElementById("score-count").innerText = score;
 
-                // Play sound and trigger confetti
+                // Play sound and celebrations last
                 correctSound.play();
 
-                setTimeout(loadNewWord, 500); // Increased delay to enjoy the celebration
-                // Basic confetti for regular correct answers
+                // Enhanced basic confetti for regular correct answers
                 confetti({
-                    particleCount: 100,
-                    spread: 70,
-                    origin: {
-                        y: 0.6
-                    }
+                    particleCount: 150,
+                    spread: 100,
+                    origin: { y: 0.6 },
+                    scalar: 1.2
                 });
 
-                // Special celebration for milestones (every 3rd correct answer)
+                // Special celebration for milestones
                 if (score % 3 === 0) {
                     celebrateMilestone();
                 } else if (score % 5 === 0) {
                     celebrateStars();
                 }
-
             } else {
                 feedback.innerHTML = "❌ Try again!";
+                document.getElementById("answer").value = "";
             }
-
-            document.getElementById("answer").value = "";
         }
 
         function loadNewWord() {
