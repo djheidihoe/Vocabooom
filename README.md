@@ -6,3 +6,5 @@ The tech stack is rather simple:
 * Laravel
 * mySQL
 * HTMX frontend
+
+This was a great intro project to learn some Laravel.
