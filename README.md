@@ -8,3 +8,4 @@ The tech stack is rather simple:
 * HTMX frontend
 
 This was a great intro project to learn some Laravel.
+Check autoCorrect.
